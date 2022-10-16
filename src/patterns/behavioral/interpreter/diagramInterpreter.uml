@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="291.0" y="103.5">playground.behavioral.interpreter.IsInExpression</node>
+    <node x="90.0" y="103.5">playground.behavioral.interpreter.AndExpression</node>
+    <node x="-54.5" y="243.5">playground.behavioral.interpreter.Expression</node>
+    <node x="-69.5" y="-16.5">playground.behavioral.interpreter.Main</node>
+    <node x="-85.0" y="103.5">playground.behavioral.interpreter.OrExpression</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="playground.behavioral.interpreter.IsInExpression" target="playground.behavioral.interpreter.Expression" relationship="REALIZATION">
+      <point x="0.0" y="16.5" />
+      <point x="375.0" y="160.0" />
+      <point x="175.0" y="160.0" />
+      <point x="175.0" y="220.0" />
+      <point x="61.33333333333334" y="220.0" />
+      <point x="46.33333333333334" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.AndExpression" target="playground.behavioral.interpreter.Expression" relationship="TO_ONE">
+      <point x="-40.0" y="16.5" />
+      <point x="135.0" y="180.0" />
+      <point x="15.0" y="180.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.Main" target="playground.behavioral.interpreter.AndExpression" relationship="CREATE">
+      <point x="23.0" y="16.5" />
+      <point x="-2.0" y="40.0" />
+      <point x="175.0" y="40.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.AndExpression" target="playground.behavioral.interpreter.Expression" relationship="REALIZATION">
+      <point x="40.0" y="16.5" />
+      <point x="215.0" y="160.0" />
+      <point x="175.0" y="160.0" />
+      <point x="175.0" y="220.0" />
+      <point x="61.33333333333334" y="220.0" />
+      <point x="46.33333333333334" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.Main" target="playground.behavioral.interpreter.IsInExpression" relationship="CREATE">
+      <point x="23.0" y="16.5" />
+      <point x="-2.0" y="40.0" />
+      <point x="175.0" y="40.0" />
+      <point x="175.0" y="80.0" />
+      <point x="375.0" y="80.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.OrExpression" target="playground.behavioral.interpreter.Expression" relationship="TO_ONE">
+      <point x="-40.0" y="16.5" />
+      <point x="-45.0" y="180.0" />
+      <point x="15.0" y="180.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.Main" target="playground.behavioral.interpreter.OrExpression" relationship="CREATE">
+      <point x="23.0" y="16.5" />
+      <point x="-2.0" y="40.0" />
+      <point x="175.0" y="40.0" />
+      <point x="175.0" y="80.0" />
+      <point x="-5.0" y="80.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.OrExpression" target="playground.behavioral.interpreter.Expression" relationship="REALIZATION">
+      <point x="40.0" y="16.5" />
+      <point x="35.0" y="160.0" />
+      <point x="175.0" y="160.0" />
+      <point x="175.0" y="220.0" />
+      <point x="61.33333333333334" y="220.0" />
+      <point x="46.33333333333334" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.interpreter.Main" target="playground.behavioral.interpreter.Expression" relationship="DEPENDENCY">
+      <point x="-20.0" y="16.5" />
+      <point x="-45.0" y="40.0" />
+      <point x="-105.0" y="40.0" />
+      <point x="-105.0" y="200.0" />
+      <point x="-25.0" y="200.0" />
+      <point x="-40.0" y="-16.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="1.5" showDependencies="true" x="187.0" y="140.00000000000003" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

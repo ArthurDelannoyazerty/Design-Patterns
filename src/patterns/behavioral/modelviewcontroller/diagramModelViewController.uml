@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="-30.0" y="103.5">playground.behavioral.modelviewcontroller.EmployeeController</node>
+    <node x="92.5" y="223.5">playground.behavioral.modelviewcontroller.Employee</node>
+    <node x="-106.5" y="-16.5">playground.behavioral.modelviewcontroller.Main</node>
+    <node x="-107.5" y="223.5">playground.behavioral.modelviewcontroller.EmployeeView</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="playground.behavioral.modelviewcontroller.Main" target="playground.behavioral.modelviewcontroller.EmployeeController" relationship="CREATE">
+      <point x="0.0" y="16.5" />
+      <point x="-62.0" y="40.0" />
+      <point x="78.0" y="40.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.modelviewcontroller.Main" target="playground.behavioral.modelviewcontroller.Employee" relationship="CREATE">
+      <point x="0.0" y="16.5" />
+      <point x="-62.0" y="40.0" />
+      <point x="218.0" y="40.0" />
+      <point x="60.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.modelviewcontroller.EmployeeController" target="playground.behavioral.modelviewcontroller.EmployeeView" relationship="TO_ONE">
+      <point x="0.0" y="16.5" />
+      <point x="78.0" y="200.0" />
+      <point x="18.0" y="200.0" />
+      <point x="40.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.modelviewcontroller.EmployeeController" target="playground.behavioral.modelviewcontroller.Employee" relationship="TO_ONE">
+      <point x="0.0" y="16.5" />
+      <point x="78.0" y="200.0" />
+      <point x="118.0" y="200.0" />
+      <point x="-40.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.modelviewcontroller.Main" target="playground.behavioral.modelviewcontroller.EmployeeView" relationship="CREATE">
+      <point x="0.0" y="16.5" />
+      <point x="-40.0" y="-16.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="1.5" showDependencies="true" x="96.66666666666669" y="135.99999999999994" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

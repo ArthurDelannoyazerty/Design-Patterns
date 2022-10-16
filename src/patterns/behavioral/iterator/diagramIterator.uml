@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="-64.5" y="62.5">playground.behavioral.iterator.Main</node>
+    <node x="-56.5" y="302.5">playground.behavioral.iterator.Iterator</node>
+    <node x="-65.5" y="182.5">playground.behavioral.iterator.LetterBag</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="playground.behavioral.iterator.LetterBag" target="playground.behavioral.iterator.Iterator" relationship="DEPENDENCY">
+      <point x="0.0" y="16.5" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.iterator.Main" target="playground.behavioral.iterator.LetterBag" relationship="CREATE">
+      <point x="20.0" y="16.5" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="playground.behavioral.iterator.Main" target="playground.behavioral.iterator.Iterator" relationship="DEPENDENCY">
+      <point x="-20.0" y="16.5" />
+      <point x="-40.0" y="119.0" />
+      <point x="-100.0" y="119.0" />
+      <point x="-100.0" y="239.0" />
+      <point x="0.0" y="239.0" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="1.5" showDependencies="true" x="-7.0" y="209.00000000000003" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
