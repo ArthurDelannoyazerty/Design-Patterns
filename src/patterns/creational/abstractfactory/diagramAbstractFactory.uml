@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="26.999999999999886" y="252.0">patterns.creational.abstractfactory.Rectangle</node>
+    <node x="353.6761257938534" y="8.329602888086676">patterns.creational.abstractfactory.FactoryProducer</node>
+    <node x="-77.0" y="252.0">patterns.creational.abstractfactory.Circle</node>
+    <node x="450.84438745729426" y="106.70714801444046">patterns.creational.abstractfactory.AbstractFactory</node>
+    <node x="833.7509578544061" y="252.0">patterns.creational.abstractfactory.PaperPrinter</node>
+    <node x="38.499999999999886" y="379.0883754512635">patterns.creational.abstractfactory.Shape</node>
+    <node x="158.99999999999977" y="252.0">patterns.creational.abstractfactory.Square</node>
+    <node x="19.896462093862738" y="106.01516245487363">patterns.creational.abstractfactory.ShapeFactory</node>
+    <node x="457.16091954022977" y="-108.03277978339348">patterns.creational.abstractfactory.Main</node>
+    <node x="692.7509578544061" y="252.0">patterns.creational.abstractfactory.WebPrinter</node>
+    <node x="828.2509578544061" y="106.70714801444046">patterns.creational.abstractfactory.PrinterFactory</node>
+    <node x="980.7509578544061" y="252.0">patterns.creational.abstractfactory.ScreenPrinter</node>
+    <node x="851.2509578544061" y="379.0883754512635">patterns.creational.abstractfactory.Printer</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="patterns.creational.abstractfactory.Main" target="patterns.creational.abstractfactory.FactoryProducer" relationship="DEPENDENCY">
+      <point x="0.0" y="14.5" />
+      <point x="498.16091954022977" y="-35.3515884476534" />
+      <point x="409.0927683931313" y="-35.3515884476534" />
+      <point x="-21.583357400722093" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.FactoryProducer" target="patterns.creational.abstractfactory.AbstractFactory" relationship="DEPENDENCY">
+      <point x="69.5" y="14.5" />
+      <point x="-25.668261663440887" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.FactoryProducer" target="patterns.creational.abstractfactory.AbstractFactory" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.ShapeFactory" target="patterns.creational.abstractfactory.Square" relationship="CREATE">
+      <point x="68.0" y="0.0" />
+      <point x="122.38191632928536" y="120.51516245487363" />
+      <point x="122.38191632928536" y="193.50758122743682" />
+      <point x="205.99999999999977" y="193.50758122743682" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.Rectangle" target="patterns.creational.abstractfactory.Shape" relationship="REALIZATION">
+      <point x="1.1368683772161603E-13" y="14.5" />
+      <point x="1.1368683772161603E-13" y="-14.500375451263494" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.AbstractFactory" target="patterns.creational.abstractfactory.Printer" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="525.8443874572943" y="393.5883754512635" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.WebPrinter" target="patterns.creational.abstractfactory.Printer" relationship="REALIZATION">
+      <point x="4.214559385218308E-5" y="14.5" />
+      <point x="753.251" y="331.0" />
+      <point x="897.251" y="331.0" />
+      <point x="4.214559385218308E-5" y="-14.500375451263494" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.PaperPrinter" target="patterns.creational.abstractfactory.Printer" relationship="REALIZATION">
+      <point x="4.214559385218308E-5" y="14.5" />
+      <point x="4.214559385218308E-5" y="-14.500375451263494" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.FactoryProducer" target="patterns.creational.abstractfactory.ShapeFactory" relationship="CREATE">
+      <point x="-2.769409518350585E-4" y="14.500397111913323" />
+      <point x="430.67584885290154" y="72.0" />
+      <point x="87.896" y="72.0" />
+      <point x="-4.620938627368787E-4" y="-14.500162454873632" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.PrinterFactory" target="patterns.creational.abstractfactory.ScreenPrinter" relationship="CREATE">
+      <point x="39.00140381901076" y="15.466266290552937" />
+      <point x="936.2523616734169" y="153.83333333333348" />
+      <point x="935.8710658166194" y="153.83333333333348" />
+      <point x="935.8710658166194" y="193.85357400722023" />
+      <point x="1048.2004048583021" y="193.85357400722023" />
+      <point x="0.9494470038960117" y="-17.061403508771775" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.PrinterFactory" target="patterns.creational.abstractfactory.WebPrinter" relationship="CREATE">
+      <point x="-69.0" y="0.6918375451263614" />
+      <point x="852.9419160190484" y="121.89898555956682" />
+      <point x="852.9419160190484" y="193.85357400722023" />
+      <point x="753.2509578544061" y="193.85357400722023" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.PrinterFactory" target="patterns.creational.abstractfactory.PaperPrinter" relationship="CREATE">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.Circle" target="patterns.creational.abstractfactory.Shape" relationship="REALIZATION">
+      <point x="0.0" y="14.5" />
+      <point x="-35.0" y="331.0" />
+      <point x="83.0" y="331.0" />
+      <point x="1.1368683772161603E-13" y="-14.500375451263494" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.ShapeFactory" target="patterns.creational.abstractfactory.Rectangle" relationship="CREATE">
+      <point x="-4.896462093862851" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.Main" target="patterns.creational.abstractfactory.ShapeFactory" relationship="CREATE">
+      <point x="-40.99991954022977" y="-2.2021660652171704E-4" />
+      <point x="308.0" y="-93.533" />
+      <point x="308.0" y="72.0" />
+      <point x="87.896" y="72.0" />
+      <point x="-4.620938627368787E-4" y="-14.500162454873632" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.ShapeFactory" target="patterns.creational.abstractfactory.AbstractFactory" relationship="GENERALIZATION">
+      <point x="34.48545423542262" y="-0.39505449266022197" />
+      <point x="122.38191632928536" y="121.20714801444046" />
+      <point x="459.04318488529077" y="121.20714801444046" />
+      <point x="-66.80120257200349" y="3.815793955870106" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.ScreenPrinter" target="patterns.creational.abstractfactory.Printer" relationship="REALIZATION">
+      <point x="4.214559385218308E-5" y="14.5" />
+      <point x="1047.251" y="331.0" />
+      <point x="897.251" y="331.0" />
+      <point x="4.214559385218308E-5" y="-14.500375451263494" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.FactoryProducer" target="patterns.creational.abstractfactory.PrinterFactory" relationship="CREATE">
+      <point x="77.0" y="0.0" />
+      <point x="519.7442769409519" y="22.829602888086676" />
+      <point x="519.7442769409519" y="72.01837545126358" />
+      <point x="882.2512166064982" y="72.01837545126358" />
+      <point x="-14.999741247907878" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.ShapeFactory" target="patterns.creational.abstractfactory.Circle" relationship="CREATE">
+      <point x="-68.0" y="0.0" />
+      <point x="45.896761133603235" y="120.51516245487363" />
+      <point x="45.896761133603235" y="193.50758122743682" />
+      <point x="-35.0" y="193.50758122743682" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.Main" target="patterns.creational.abstractfactory.AbstractFactory" relationship="DEPENDENCY">
+      <point x="41.000080459770174" y="-2.2021660652171704E-4" />
+      <point x="583.0" y="-93.533" />
+      <point x="583.0" y="121.207" />
+      <point x="74.99961254270579" y="-1.4801444046952383E-4" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.Square" target="patterns.creational.abstractfactory.Shape" relationship="REALIZATION">
+      <point x="1.1368683772161603E-13" y="14.5" />
+      <point x="205.9999999999999" y="331.0" />
+      <point x="83.0" y="331.0" />
+      <point x="1.1368683772161603E-13" y="-14.500375451263494" />
+    </edge>
+    <edge source="patterns.creational.abstractfactory.PrinterFactory" target="patterns.creational.abstractfactory.AbstractFactory" relationship="GENERALIZATION">
+      <point x="0.5958707555821547" y="-5.779347744534704" />
+      <point x="897.8468286099883" y="121.20714801444046" />
+      <point x="526.8657219973015" y="121.20714801444046" />
+      <point x="1.021334540007274" y="-5.172735058974695" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.2237819983484723" showDependencies="true" x="570.1740890688288" y="143.61909581646432" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

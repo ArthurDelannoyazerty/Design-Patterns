@@ -2,15 +2,11 @@
 <Diagram>
   <ID>JAVA</ID>
   <OriginalElement />
-  <nodes>
-    <node x="-242.5" y="-16.5">playground.design.patterns.structural.adapter</node>
-  </nodes>
+  <nodes />
   <notes />
   <edges />
-  <settings layout="Hierarchic Compact" zoom="1.5" showDependencies="true" x="-13.333333333332689" y="3.3333333333332007" />
-  <SelectedNodes>
-    <node>playground.design.patterns.structural.adapter</node>
-  </SelectedNodes>
+  <settings layout="Hierarchic Compact" zoom="1.5" showDependencies="true" x="196.33333333333331" y="66.0" />
+  <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

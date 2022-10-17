@@ -2,10 +2,68 @@
 <Diagram>
   <ID>JAVA</ID>
   <OriginalElement />
-  <nodes />
+  <nodes>
+    <node x="187.0" y="225.5">patterns.structural.facade.Circle</node>
+    <node x="-55.5" y="345.5">patterns.structural.facade.Shape</node>
+    <node x="62.0" y="225.5">patterns.structural.facade.Square</node>
+    <node x="28.0" y="-14.5">patterns.structural.facade.Main</node>
+    <node x="-67.0" y="225.5">patterns.structural.facade.Rectangle</node>
+    <node x="2.0" y="105.5">patterns.structural.facade.ShapeFacade</node>
+  </nodes>
   <notes />
-  <edges />
-  <settings layout="Hierarchic Compact" zoom="1.0" showDependencies="false" x="1367.0" y="440.5" />
+  <edges>
+    <edge source="patterns.structural.facade.Main" target="patterns.structural.facade.ShapeFacade" relationship="CREATE">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.ShapeFacade" target="patterns.structural.facade.Rectangle" relationship="CREATE">
+      <point x="40.0" y="14.5" />
+      <point x="109.0" y="200.0" />
+      <point x="-11.0" y="200.0" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.Rectangle" target="patterns.structural.facade.Shape" relationship="REALIZATION">
+      <point x="0.0" y="14.5" />
+      <point x="-11.0" y="280.0" />
+      <point x="109.0" y="280.0" />
+      <point x="109.0" y="320.0" />
+      <point x="12.0" y="320.0" />
+      <point x="23.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.Circle" target="patterns.structural.facade.Shape" relationship="REALIZATION">
+      <point x="0.0" y="14.5" />
+      <point x="229.0" y="280.0" />
+      <point x="109.0" y="280.0" />
+      <point x="109.0" y="320.0" />
+      <point x="12.0" y="320.0" />
+      <point x="23.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.Square" target="patterns.structural.facade.Shape" relationship="REALIZATION">
+      <point x="0.0" y="14.5" />
+      <point x="109.0" y="320.0" />
+      <point x="12.0" y="320.0" />
+      <point x="23.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.ShapeFacade" target="patterns.structural.facade.Square" relationship="CREATE">
+      <point x="40.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.ShapeFacade" target="patterns.structural.facade.Shape" relationship="TO_ONE">
+      <point x="-40.0" y="14.5" />
+      <point x="29.0" y="160.0" />
+      <point x="-91.0" y="160.0" />
+      <point x="-91.0" y="280.0" />
+      <point x="-31.0" y="280.0" />
+      <point x="-20.0" y="-14.5" />
+    </edge>
+    <edge source="patterns.structural.facade.ShapeFacade" target="patterns.structural.facade.Circle" relationship="CREATE">
+      <point x="40.0" y="14.5" />
+      <point x="109.0" y="200.0" />
+      <point x="229.0" y="200.0" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="1.5" showDependencies="true" x="100.0" y="190.0" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
