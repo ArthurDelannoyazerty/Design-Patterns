@@ -66,15 +66,15 @@ class FailureHandler(AbstractHandler):
 # ---------------------------- Handler controller ---------------------------- #
 class Logger:
     def __init__(self):
-        self.failure_handler = FailureHandler()
-        self.error_handler = ErrorHandler()
-        self.info_handler = InfoHandler()
+        failure_handler = FailureHandler()
+        error_handler = ErrorHandler()
+        info_handler = InfoHandler()
 
-        self.info_handler\
-            .set_next(self.error_handler) \
-            .set_next(self.failure_handler)
-        
-        self.default_handler = self.info_handler
+        info_handler\
+            .set_next(error_handler) \
+            .set_next(failure_handler)
+
+        self.default_handler = info_handler
 
     def log(self, message):
         self.default_handler.handle(message)
