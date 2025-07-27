@@ -11,11 +11,11 @@ Pass a request through a chain of handlers. Each handler decides whether to proc
 
 #### Exemple
 
-BASE
+##### Base
 - `Handler` : Interface that dictate what methods are mandatory
 - `AbstractHandler` : Boilerplate code for the handlers
 
-EXAMPLE
+##### Custom
 - `InfoHandler`, `ErrorHandler`, `FailureHandler` : Concrete handlers that each implement a way of processing the request
 - `Logger` : Controller that build the chain of handlers and send the request to the first handler. Help use the chain of responsibility 
 
