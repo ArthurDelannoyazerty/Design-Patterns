@@ -136,8 +136,8 @@ classDiagram
     Command <|.. InsertCommand : implements
     Command <|.. DeleteCommand : implements
     
-    InsertCommand o-- Editor : has
-    DeleteCommand o-- Editor : has
+    InsertCommand o-- Editor : contains
+    DeleteCommand o-- Editor : contains
     
 
     DeleteCommand --o Document : has
