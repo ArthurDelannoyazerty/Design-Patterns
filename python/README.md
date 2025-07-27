@@ -74,6 +74,17 @@ classDiagram
     }
 ```
 
+```mermaid
+sequenceDiagram
+    Logger->>+InfoHandler: request
+    InfoHandler->>+ErrorHandler: request
+    ErrorHandler->>+FailureHandler: request
+    FailureHandler-->>-ErrorHandler: None | Any
+    ErrorHandler-->>-InfoHandler: None | Any
+    InfoHandler-->>-Logger: None | Any
+    Note left of Logger: This is in the case of <br> a request going to the last handler. <br><br> If the request have a certain criteria <br> that is handled by the an intermediate handler, <br> then the following handler will not be called <br> and the request will be returned to the first handler.
+```
+
 
 # Creational
 
