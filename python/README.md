@@ -163,61 +163,61 @@ sequenceDiagram
     
     % --------------------------------------------------------
     rect rgba(61, 61, 61, 0.5)
-    Main/Client->>+Editor: type("Hello, this is the Command Pattern.")
+        Main/Client->>+Editor: type("Hello, this is the Command Pattern.")
 
-    create participant InsertCommand1 as InsertCommand
-    Editor->>InsertCommand1: <<create>>
+        create participant InsertCommand1 as InsertCommand
+        Editor->>InsertCommand1: <<create>>
 
-    Editor->>+Editor: execute_command()
-    Editor->>+InsertCommand1: execute()
-    InsertCommand1->>+Document: insert()
-    Document-->>-InsertCommand1: 
-    InsertCommand1-->>-Editor: 
-    Editor->>-Editor: Add command to history
-    Editor-->>-Main/Client:
+        Editor->>+Editor: execute_command()
+        Editor->>+InsertCommand1: execute()
+        InsertCommand1->>+Document: insert()
+        Document-->>-InsertCommand1: 
+        InsertCommand1-->>-Editor: 
+        Editor->>-Editor: Add command to history
+        Editor-->>-Main/Client:
     end
 
     % --------------------------------------------------------
     rect rgba(61, 61, 61, 0.5)
-    Main/Client->>+Editor: type(" It's great!")
+        Main/Client->>+Editor: type(" It's great!")
 
-    create participant InsertCommand2 as InsertCommand
-    Editor->>InsertCommand2: <<create>>
+        create participant InsertCommand2 as InsertCommand
+        Editor->>InsertCommand2: <<create>>
 
-    Editor->>+Editor: execute_command()
-    Editor->>+InsertCommand2: execute()
-    InsertCommand2->>+Document: insert()
-    Document-->>-InsertCommand2: 
-    InsertCommand2-->>-Editor: 
-    Editor->>-Editor: Add command to history
-    Editor-->>-Main/Client:
+        Editor->>+Editor: execute_command()
+        Editor->>+InsertCommand2: execute()
+        InsertCommand2->>+Document: insert()
+        Document-->>-InsertCommand2: 
+        InsertCommand2-->>-Editor: 
+        Editor->>-Editor: Add command to history
+        Editor-->>-Main/Client:
     end
 
     % --------------------------------------------------------
     rect rgba(61, 61, 61, 0.5)
-    Main/Client->>+Editor: backspace(7)
+        Main/Client->>+Editor: backspace(7)
 
-    create participant DeleteCommand1 as DeleteCommand
-    Editor->>DeleteCommand1: <<create>>
+        create participant DeleteCommand1 as DeleteCommand
+        Editor->>DeleteCommand1: <<create>>
 
-    Editor->>+Editor: execute_command()
-    Editor->>+DeleteCommand1: execute()
-    DeleteCommand1->>+Document: delete(self.length)
-    Document-->>-DeleteCommand1: 
-    DeleteCommand1-->>-Editor: 
-    Editor->>-Editor: Add command to history
-    Editor-->>-Main/Client:
+        Editor->>+Editor: execute_command()
+        Editor->>+DeleteCommand1: execute()
+        DeleteCommand1->>+Document: delete(self.length)
+        Document-->>-DeleteCommand1: 
+        DeleteCommand1-->>-Editor: 
+        Editor->>-Editor: Add command to history
+        Editor-->>-Main/Client:
     end
 
     % --------------------------------------------------------
     rect rgba(61, 61, 61, 0.5)
-    Main/Client->>+Editor: undo()
+        Main/Client->>+Editor: undo()
 
-    Editor->>+DeleteCommand1: undo()
-    DeleteCommand1->>+Document: insert(self._deleted_text)
-    Document-->>-DeleteCommand1: 
-    DeleteCommand1-->>-Editor: 
-    Editor-->>-Main/Client:
+        Editor->>+DeleteCommand1: undo()
+        DeleteCommand1->>+Document: insert(self._deleted_text)
+        Document-->>-DeleteCommand1: 
+        DeleteCommand1-->>-Editor: 
+        Editor-->>-Main/Client:
     end
 
     % --------------------------------------------------------
@@ -227,6 +227,94 @@ sequenceDiagram
         participant DeleteCommand1
     end
 ```
+
+## Iterator
+#### What
+We have a collection of items in a certain structure (item in list/graph, words in sentence ...). We want to traverse that collection. We split the storing and the traversal behaviour
+
+#### Useful for
+- Decouple the Client and the logic : The client doesn't need to know *how* or *what* to traverse, they just get the next item
+- Having multiple Iterator for a type of collection (exemple: graph => depth or breadth traversal) 
+- Simplify the collection : Only store and create the iterator for the kind of traversing we want
+
+
+#### Exemple 
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Iterator {
+        <<interface>>
+        +__next__()* 
+    }
+
+    class IterableCollection {
+        <<interface>>
+        +__iter__()* 
+    }
+
+    class WordIterator {
+        -words_collection list~str~
+        -index int
+        +__next__() str
+    }
+
+    class WordCollection {
+        -words_collection list~str~
+        +__len__() int
+        +__getitem__(index: int) str
+        +__iter__() WordIterator
+        +get_reversed_iterator() WordIterator
+    }
+    
+    Iterator <|.. WordIterator 
+    IterableCollection <|.. WordCollection 
+
+    WordIterator <|-- WordCollection 
+    WordIterator --o WordCollection
+
+    WordIterator <|-- Client 
+    Client --|> WordCollection 
+
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+```mermaid
+sequenceDiagram
+    participant Main/Client
+
+    create participant WordCollection
+    Main/Client->>WordCollection: <<create>>
+
+    % --------------------------------------------------------
+    rect rgba(61, 61, 61, 0.5)
+        Main/Client->>WordCollection: __iter__()
+        create participant WordIterator 
+        WordCollection->>WordIterator: <<create>>
+        WordCollection-->>Main/Client: return WordIterator
+
+        loop Until End
+            Main/Client->>+WordIterator: __next__()
+            WordIterator-->>-Main/Client: 
+        end
+    end
+    
+    % --------------------------------------------------------
+    rect rgba(61, 61, 61, 0.5)
+        Main/Client->>WordCollection: get_reversed_iterator()
+        create participant WordIteratorReversed 
+        WordCollection->>WordIteratorReversed: <<create>>
+        WordCollection-->>Main/Client: return WordIteratorReversed
+
+        loop Until End
+            Main/Client->>+WordIteratorReversed: __next__()
+            WordIteratorReversed-->>-Main/Client: 
+        end
+    end
+```
+
+
 
 # Creational
 
