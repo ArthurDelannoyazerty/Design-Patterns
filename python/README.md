@@ -416,6 +416,7 @@ classDiagram
     style Client stroke:#4D85E6,stroke-width:3px
 ```
 
+<details><summary><h5>Sequence Diagram</h5></summary>
 
 ```mermaid
 sequenceDiagram
@@ -459,8 +460,15 @@ sequenceDiagram
         TextEditor-->>-Client: 
 
     end
-
 ```
+
+</details>
+
+
+
+
+
+
 
 # Creational
 
