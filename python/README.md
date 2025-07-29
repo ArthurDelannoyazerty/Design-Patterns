@@ -65,6 +65,8 @@ classDiagram
     style Logger stroke:#4D85E6,stroke-width:3px
 ```
 
+<details><summary><h5>Sequence Diagram</h5></summary>
+
 ```mermaid
 sequenceDiagram
     participant Main/Client
@@ -93,7 +95,7 @@ sequenceDiagram
     InfoHandler-->>-Logger: 
     Note left of Main/Client: This is in the case of <br> a request going to the last handler. <br><br> If the request have a certain criteria <br> that is handled by the an intermediate handler, <br> then the following handler will not be called <br> and the request will be returned to the first handler.
 ```
-
+</details>
 
 ## Command
 #### What
@@ -168,6 +170,8 @@ classDiagram
 
     style Editor stroke:#4D85E6,stroke-width:3px
 ```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
 
 ```mermaid
 sequenceDiagram
@@ -245,6 +249,7 @@ sequenceDiagram
         participant DeleteCommand1
     end
 ```
+</details>
 
 ## Iterator
 #### What
@@ -257,6 +262,10 @@ We have a collection of items in a certain structure (item in list/graph, words 
 
 
 #### Exemple 
+- `Iterator` : Interface that dictate the `next` method (traverse the collection)
+- `IterableCollection` : Interface that dictate the `iter` method (give the mean to traverse the collection)
+- `WordCollection` : Store the data and give access to an iterator
+- `WordIterator` : Store the collection and the function to traverse it
 
 ```mermaid
 classDiagram
@@ -298,6 +307,8 @@ classDiagram
     style Client stroke:#4D85E6,stroke-width:3px
 ```
 
+<details><summary><h5>Sequence Diagram</h5></summary>
+
 ```mermaid
 sequenceDiagram
     participant Main/Client
@@ -331,7 +342,7 @@ sequenceDiagram
         end
     end
 ```
-
+</details>
 
 
 # Creational
