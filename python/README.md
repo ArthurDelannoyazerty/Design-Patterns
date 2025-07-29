@@ -351,7 +351,116 @@ Not really useful
 
 Just set a class that let you interface with a certain set of other object (exemple: A Dialog let us talk to its child (button, menus ...))
 
+## Memento
+#### What
+A class that store/remember an object state. 
 
+#### Useful for
+Some undo redo operation, transactional operations, rollbacks, versioning ...
+
+#### Exemple
+- `Memento` : Interface that dictate the `get_save` method
+- `Originator` : Interface that dictate the `save` method
+- `TextEditor` : Store the current text state
+- `TextEditorSnapshot` : Store **a** text state at a certain time. Do not expose the internal state
+- `History` : Store the collection of `TextEditorSnapshot`. Have no access to its internal state
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Memento {
+        <<interface>>
+        +get_save()* 
+    }
+
+    class Originator {
+        <<interface>>
+        +save()* 
+    }
+
+    class TextEditorSnapshot {
+        -state str
+        +get_save() str
+    }
+
+    class TextEditor {
+        -state str
+        +write(text: str)
+        +save() TextEditorSnapshot
+        +restore(snapshot: TextEditorSnapshot)
+        +display()
+    }
+
+    class History {
+        -mementos list~TextEditorSnapshot~
+        -originator TextEditor
+        +backup()
+        +undo()
+    }
+
+    class Client {
+        +editor TextEditor
+        +history History
+    }
+
+    Memento <|.. TextEditorSnapshot
+    Originator <|.. TextEditor
+
+    TextEditorSnapshot *-- History
+    TextEditor *-- History
+
+    History <|-- Client
+    TextEditor <|-- Client
+
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    create participant TextEditor
+    Client->>TextEditor: <<create>>
+    
+    rect rgba(61, 61, 61, 0.5)
+        create participant History
+        Client->>+History: <<create>>
+        Client->>History: __init__(TextEditor)
+        History-->>-Client: 
+    end
+
+    % --------------------------------------------------------
+    Client->>+TextEditor: write()
+    TextEditor-->>-Client: 
+
+    rect rgba(61, 61, 61, 0.5)
+        Client->>History: backup()
+        History->>+TextEditor: save()
+        
+        rect rgba(61, 61, 61, 0.7)
+            create participant TextEditorSnapshot
+            TextEditor->>+TextEditorSnapshot: <<create>>
+            TextEditor->>TextEditorSnapshot: __init__(state)
+            TextEditorSnapshot-->>-TextEditor: 
+        end
+        
+        TextEditor-->>-History: Store snapshot
+    end
+
+    
+    % --------------------------------------------------------
+    rect rgba(61, 61, 61, 0.5)
+        Client->>History: undo()
+        History->>+TextEditor: restore(TextEditorSnapshot)
+        TextEditor->>+TextEditorSnapshot: get_save()
+        TextEditorSnapshot-->>-TextEditor: restore state
+        TextEditor-->>-Client: 
+
+    end
+
+```
 
 # Creational
 
