@@ -345,6 +345,14 @@ sequenceDiagram
 </details>
 
 
+## Mediator
+
+Not really useful
+
+Just set a class that let you interface with a certain set of other object (exemple: A Dialog let us talk to its child (button, menus ...))
+
+
+
 # Creational
 
 
