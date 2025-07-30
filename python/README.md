@@ -467,6 +467,106 @@ sequenceDiagram
 
 
 
+## Observer
+#### What
+Observer pattern can subscribe to other objects and receive notification
+
+#### Useful for 
+- Send info to different system without them checkin continuously
+- We can dynamically attach or detach observers at runtime
+- Decouple the publisher from the action took (Here we send log info, but we don't know how is it handled)
+
+#### Exemple
+- `Subscriber` : dictate the `update` function
+- `ConsoleSubscriber`, `FileSubscriber` : manage the reception of a message and handle how to proccess it (or pass it to the right system)
+- `LoggerPublisher` : Emit the event to the Subscriber it have
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Subscriber {
+        <<interface>>
+        +update(context)* 
+    }
+
+    class ConsoleSubscriber {
+        +update(message:str, level:str)
+    }
+
+    class FileSubscriber {
+        +filename str
+        +update(message:str, level:str)
+    }
+
+    class LoggerPublisher {
+        -_observers list~Subscriber~
+        +attach(observer:Subscriber)
+        +detach(observer:Subscriber)
+        +log(message:str, level:str)
+        -notify(message:str, level:str)
+    }
+
+    class Client {
+        +logger LoggerPublisher
+        +console_handler ConsoleSubscriber
+        +file_subscriber FileSubcriber
+    }
+
+
+    Subscriber <|.. ConsoleSubscriber
+    Subscriber <|.. FileSubscriber
+
+    ConsoleSubscriber <--* LoggerPublisher
+    FileSubscriber <--* LoggerPublisher
+
+    LoggerPublisher <-- Client
+    FileSubscriber <-- Client
+    ConsoleSubscriber <-- Client
+
+    style Client stroke:#4D85E6,stroke-width:3px
+
+```
+
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    create participant LoggerPublisher
+    Client->>LoggerPublisher: <<create>>
+
+    create participant ConsoleSubscriber
+    Client->>ConsoleSubscriber: <<create>>
+    
+    rect rgba(61, 61, 61, 0.5)
+        create participant FileSubscriber
+        Client->>+FileSubscriber: <<create>>
+        Client->>FileSubscriber: __init__("app.log")
+    end
+
+    % --------------------------------------------------------
+    Client->>+LoggerPublisher: attach(console_subscriber)
+    LoggerPublisher-->-Client: 
+    Client->>+LoggerPublisher: attach(file_subscriber)
+    LoggerPublisher-->-Client: 
+
+    Client->>+LoggerPublisher: log()
+    LoggerPublisher->>LoggerPublisher: _notify()
+    activate LoggerPublisher
+    LoggerPublisher->>+ConsoleSubscriber: update()
+    ConsoleSubscriber-->-LoggerPublisher: 
+    LoggerPublisher->>+FileSubscriber: update()
+    FileSubscriber-->-LoggerPublisher: 
+    deactivate LoggerPublisher
+    LoggerPublisher-->-Client: 
+
+
+
+```
+
+
 
 
 
