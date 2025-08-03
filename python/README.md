@@ -529,6 +529,7 @@ classDiagram
 
 ```
 
+<details><summary><h5>Sequence Diagram</h5></summary>
 
 ```mermaid
 sequenceDiagram
@@ -562,10 +563,8 @@ sequenceDiagram
     deactivate LoggerPublisher
     LoggerPublisher-->-Client: 
 
-
-
 ```
-
+</details>
 
 
 
