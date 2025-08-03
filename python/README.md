@@ -567,6 +567,112 @@ sequenceDiagram
 </details>
 
 
+## State
+#### What
+Extracting the state of an object into a separate set of class. Each class contains the logic and can change dynamically the state of the context object to another state if wanted.
+
+#### Useful for
+- Managing a state system and avoiding bloat/mess with an accumulation of conditions
+
+#### Exemple
+
+
+
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class State {
+        <<abstract>>
+        -player:AudioPlayer
+        +State(audio_player:AudioPlayer)
+        +set_player(audio_player:AudioPlayer) 
+        +on_play()*
+        +on_pause()*
+        +on_stop()*
+    }
+
+    class StoppedState {
+        +on_play()
+        +on_pause()
+        +on_stop()
+    }
+    
+    class PlayingState {
+        +on_play()
+        +on_pause()
+        +on_stop()
+    }   
+
+    class PausedState {
+        +on_play()
+        +on_pause()
+        +on_stop()
+    }
+
+    class AudioPlayer {
+        -state:State
+        +AudioPlayer(initial_state:State)
+        +change_state(new_state:State)
+        +click_play()
+        +click_pause()
+        +click_stop()
+    }
+
+
+    State <|..StoppedState
+    State <|..PlayingState
+    State <|..PausedState
+    AudioPlayer o--|> State
+
+    style AudioPlayer stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+
+sequenceDiagram
+    participant Client
+
+    create participant StoppedState
+    Client->>StoppedState: <<create>>
+
+    rect rgba(61, 61, 61, 0.5)
+        create participant AudioPlayer
+        Client->>+AudioPlayer: <<create>>
+        Client->>AudioPlayer: AudioPlayer(initial_state)
+        AudioPlayer->>StoppedState: set_player(self)
+    end
+
+    % --------------------------------------------------------
+    rect rgba(61, 61, 61, 0.5)
+        Client->>AudioPlayer: click_play()
+        AudioPlayer->>StoppedState: on_play()
+
+        rect rgba(61, 61, 61, 0.5)
+            create participant PlayingState
+            StoppedState->>PlayingState: <<create>>
+            StoppedState->>PlayingState: PlayingState(self.player)
+        end
+
+        StoppedState->>AudioPlayer: change_state(PlayingState)
+    end
+
+    % --------------------------------------------------------
+    rect rgba(61, 61, 61, 0.5)
+        Client->>AudioPlayer: click_play()
+        AudioPlayer->>PlayingState: on_play()
+        PlayingState-->>AudioPlayer: print("Already playing.")
+    end
+```
+
+</details>
+
+
+
 
 
 # Creational
