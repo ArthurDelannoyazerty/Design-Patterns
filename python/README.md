@@ -575,9 +575,10 @@ Extracting the state of an object into a separate set of class. Each class conta
 - Managing a state system and avoiding bloat/mess with an accumulation of conditions
 
 #### Exemple
-
-
-
+- `State` : dictate the actions functions (`on_play`, `on_pause`, `on_stop`) + some boilerplate code common for each child class
+- `StoppedState`, `PlayingState`, `PausedState` : concrete states that implement the actions functions
+- `AudioPlayer` : context class that holds the current state and can change it dynamically
+- `Client|Main` : Manage the `AudioPlayer` and its state
 
 
 ```mermaid
@@ -686,6 +687,9 @@ It looks similar to `Command` because it parameterizes an object with action. Bu
 - We can change the algorithm at runtime.
 
 #### Example
+- `ExportStrategy` : dictate the `export` function
+- `PngExportStrategy`, `JpegExportStrategy`, `SvgExportStrategy` : implement the `export` function for different export types.
+- `ImageExporter` : use the `ExportStrategy` dynamically set by the `Client/Main` to export the image.
 
 
 ```mermaid
@@ -777,6 +781,78 @@ sequenceDiagram
 
 </details>
 
+
+## Template Method
+#### What
+Use an abstract template class that implement some step for an algorithm common for different algorithms, and implement the steps that are different in the subclasses.
+
+
+#### Useful For
+- A step by step algorithm that has some steps in common and some steps that are different for different algorithms.
+
+
+
+#### Example
+- `ReportGenerator` : Dictate the steps for generating a report. Only the common steps are implemented in the abstract class. The steps that are different are implemented in the subclasses.
+- `CsvReportGenerator`, ``JsonReportGenerator``: Implement the steps that are different for each type of report.
+- `Client`: Manage the report generation process.
+
+```mermaid
+classDiagram
+    direction LR
+
+    class ReportGenerator {
+        <<interface>>
+        +generate_report()
+        -analyze_data()
+        -load_data()*
+        -save_report()*
+    }
+
+    class CsvReportGenerator {
+        -load_data()
+        -save_report()
+    }
+
+    class JsonReportGenerator {
+        -load_data()
+        -save_report()
+    }
+
+    ReportGenerator <|.. CsvReportGenerator
+    ReportGenerator <|.. JsonReportGenerator
+    
+    CsvReportGenerator  <|-- Client
+    JsonReportGenerator <|-- Client
+
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    rect rgba(61, 61, 61, 0.5)
+        create participant CsvReportGenerator
+        Client->>CsvReportGenerator: <<create>>
+        Client->>CsvReportGenerator: generate_report()
+        CsvReportGenerator->>CsvReportGenerator: _load_data()
+        CsvReportGenerator->>CsvReportGenerator: _analyze_data()
+        CsvReportGenerator->>CsvReportGenerator: _save_report()
+    end
+
+    rect rgba(61, 61, 61, 0.5)
+        create participant JsonReportGenerator
+        Client->>JsonReportGenerator: <<create>>
+        Client->>JsonReportGenerator: generate_report()
+        JsonReportGenerator->>JsonReportGenerator: _load_data()
+        JsonReportGenerator->>JsonReportGenerator: _analyze_data()
+        JsonReportGenerator->>JsonReportGenerator: _save_report()
+    end
+```
+</details>
 
 
 
