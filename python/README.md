@@ -672,6 +672,114 @@ sequenceDiagram
 </details>
 
 
+## Strategy
+#### What
+A way to externalize algorithm from an object.
+
+It architecture is similar to `State` but it does not externalize state but logic.
+
+It looks similar to `Command` because it parameterizes an object with action. But `Command` convert an operation in an object, while `Strategy` describes different way of doing the same thing, letting us swap algorithms in a signle *context* class
+
+#### Useful For
+- Simplifying the `Context` class by externalizing the logic.
+- We can easily add other algorithms without touching the `Context` class.
+- We can change the algorithm at runtime.
+
+#### Example
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class ExportStrategy {
+        <<interface>>
+        +export(canvas: ImageCanvas)
+    }
+
+    class PngExportStrategy {
+        +export(Canvas canvas)
+    }
+    class JpegExportStrategy {
+        +export(Canvas canvas)
+    }
+    class SvgExportStrategy {
+        +export(Canvas canvas)
+    }
+
+    class ImageCanvas {
+        -shapes: list[]
+        +add_shape(shape_data)
+    }
+
+    class ImageExporter {
+        -strategy: ExportStrategy
+        +set_strategy(strategy: ExportStrategy)
+        +do_export(canvas: ImageCanvas, filepath: str)
+    }
+
+    ExportStrategy <|.. PngExportStrategy
+    ExportStrategy <|.. JpegExportStrategy
+    ExportStrategy <|.. SvgExportStrategy
+
+    ImageExporter --> ExportStrategy
+    ImageExporter o-- ExportStrategy
+
+    ExportStrategy <|-- Client
+    ImageExporter <|-- Client
+    Client --|> ImageCanvas
+
+    style Client stroke:#4D85E6,stroke-width:3px
+
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    create participant ImageCanvas
+    Client->>ImageCanvas: <<create>>
+    Client->>ImageCanvas: add_shape("circle")
+
+    create participant PngExportStrategy
+    Client->>PngExportStrategy: <<create>>
+
+    rect rgba(61, 61, 61, 0.5)
+        create participant ImageExporter
+        Client->>ImageExporter: <<create>>
+        Client->>ImageExporter: ImageExporter(PngExportStrategy())
+    end
+
+
+    % --------------------------------------------------------
+    
+    rect rgba(61, 61, 61, 0.5)
+        Client->>ImageExporter: do_export(my_canvas, "my_drawing.png")
+        ImageExporter->>PngExportStrategy: export(canvas, filepath)
+    end
+
+    % --------------------------------------------------------
+    rect rgba(61, 61, 61, 0.5)
+        create participant JpegExportStrategy
+        Client->>JpegExportStrategy: <<create>>
+        Client->>ImageExporter: set_strategy(JpegExportStrategy())
+    end
+
+    rect rgba(61, 61, 61, 0.5)
+        Client->>ImageExporter: do_export(my_canvas, "my_drawing.png")
+        ImageExporter->>JpegExportStrategy: export(canvas, filepath)
+    end
+
+
+```
+
+</details>
+
+
+
+
 
 
 
