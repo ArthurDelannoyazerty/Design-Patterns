@@ -855,8 +855,138 @@ sequenceDiagram
 </details>
 
 
+## Visitor
+#### What
+A way to externalize the algorithm from classes. It allows to add new operations to existing classes without modifying them.
+
+#### Useful For
+- When you have a class hierarchy and you want to add new operations to it without modifying the classes.
+- When you want to separate the algorithm from the object structure
+
+##### Exemple
+- `Node` : The interface that defines the `accept()` method
+- `Visitor` : The interface that defines the `visit_number_node()`, `visit_add_node()`, and `visit_multiply_node()` methods
+- `NumberNode`, `AddNode`, `MultiplyNode` : The concrete classes that implement the `Node` interface. Each accept a visitor that can access internal data. So we do not modify the object itself.
+- `PythonCodeGenerator` : An implemented `Visitor` that contains the algorithms to visite the nodes and generate Python code.
 
 
+```mermaid
+      
+classDiagram
+    direction LR
+
+    class Node {
+        <<Interface>>
+        +accept(visitor: Visitor)*
+    }
+
+    class Visitor {
+        <<Interface>>
+        +visit_number_node(node: NumberNode)*
+        +visit_add_node(node: AddNode)*
+        +visit_multiply_node(node: MultiplyNode)*
+    }
+
+    class NumberNode {
+        -value: any
+        +accept(visitor: Visitor)
+    }
+    class AddNode {
+        -left: Node
+        -right: Node
+        +accept(visitor: Visitor)
+    }
+    class MultiplyNode {
+        -left: Node
+        -right: Node
+        +accept(visitor: Visitor)
+    }
+
+    class PythonCodeGenerator {
+        +visit_number_node(node: NumberNode)
+        +visit_add_node(node: AddNode)
+        +visit_multiply_node(node: MultiplyNode)
+    }
+
+    class Client
+
+
+    Node <|.. NumberNode : inherits
+    Node <|.. AddNode : inherits
+    Node <|.. MultiplyNode : inherits
+    
+
+    Visitor <|.. PythonCodeGenerator : inherits
+
+    PythonCodeGenerator <.. Client : uses
+    Node <.. Client : builds tree with
+
+    NumberNode <.. PythonCodeGenerator : visits
+    AddNode <.. PythonCodeGenerator : visits
+    MultiplyNode <.. PythonCodeGenerator : visits
+
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant mult as MultiplyNode
+    participant add as AddNode
+    participant num1 as NumberNode(1)
+    participant num2 as NumberNode(2)
+    participant num3 as NumberNode(3)
+    participant visitor as PythonCodeGenerator
+
+    %% -- Object Creation Phase --
+    Note over Client: The client first builds the AST and creates the visitor.
+    Client->>num1: <<create>>
+    Client->>num2: <<create>>
+    Client->>add: <<create>> AddNode(num1, num2)
+    Client->>num3: <<create>>
+    Client->>mult: <<create>> MultiplyNode(add, num3)
+    Client->>visitor: <<create>>
+
+    %% -- Traversal Phase --
+    Note over Client, visitor: Client initiates the code generation by calling accept() on the root node.
+    Client->>+mult: accept(visitor)
+    
+    Note right of mult: The MultiplyNode dispatches the call to the visitor's specific method.
+    mult->>+visitor: visit_multiply_node(self)
+
+    Note over visitor: The visitor now drives the traversal. It calls accept() on the left child (the AddNode).
+    visitor->>+add: accept(visitor)
+    add->>+visitor: visit_add_node(self)
+
+    Note over visitor: Inside visit_add_node, the visitor calls accept() on its children (num1 and num2).
+    visitor->>+num1: accept(visitor)
+    num1->>+visitor: visit_number_node(self)
+    visitor-->>-num1: "1"
+    num1-->>-visitor: "1"
+
+    visitor->>+num2: accept(visitor)
+    num2->>+visitor: visit_number_node(self)
+    visitor-->>-num2: "2"
+    num2-->>-visitor: "2"
+    
+    Note right of visitor: visit_add_node combines the results and returns "(1 + 2)".
+    visitor-->>-add: "(1 + 2)"
+    add-->>-visitor: "(1 + 2)"
+
+    Note over visitor: Now back in visit_multiply_node, the visitor calls accept() on its right child (num3).
+    visitor->>+num3: accept(visitor)
+    num3->>+visitor: visit_number_node(self)
+    visitor-->>-num3: "3"
+    num3-->>-visitor: "3"
+
+    Note right of visitor: visit_multiply_node combines the results and returns the final code.
+    visitor-->>-mult: "(1 + 2) * 3"
+    mult-->>-Client: "(1 + 2) * 3"
+```
+
+</details>
 
 
 # Creational
