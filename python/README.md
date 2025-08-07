@@ -993,3 +993,95 @@ sequenceDiagram
 
 
 # Structural
+## Factory
+#### What
+We instantiate a class with another subclass. 
+
+
+#### Useful For
+- Decoupling the creation of objects.
+- easy to add new types of objects without changing existing code.
+
+
+#### Exemple
+- `Serializer` (Product) : Interface that dictate the `serialize` method.
+- `Exporter` (Creator) : Abstract class that dictate the `get_serializer` method (to instantiate the `Serializer`)(absract) and the `export` method that call the `get_serializer` and then the `serialize` method of the `Serializer`.
+- `JsonSerializer`|`XmlSerializer` : Concrete class that implement the `Serializer` interface.
+- `JsonExporter`|`XmlExporter` : Concrete class that implement the `Exporter` abstract class.
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Serializer {
+        <<interface>>
+        +serialize(data, format)*
+    }
+    
+    class Exporter {
+        <<abstract>>
+        +get_serializer()*
+        +export(data, format)
+    }
+
+    class JsonSerializer {
+        +serialize(data, format)
+    }
+
+    class XmlSerializer {
+        +serialize(data, format)
+    }
+
+    class JsonExporter {
+        +get_serializer()
+        +export(data, format)
+    }
+
+    class XmlExporter {
+        +get_serializer()
+        +export(data, format)
+    }
+
+
+    Serializer <|.. JsonSerializer : implements
+    Serializer <|.. XmlSerializer : implements
+
+    JsonExporter ..|> Exporter : implements
+    XmlExporter ..|> Exporter : implements
+
+    Exporter --> Serializer : create & execute 
+
+    Client --> JsonExporter : use
+    Client --> XmlExporter  : use
+
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+
+```mermaid
+sequenceDiagram
+    participant Client
+    Note over Client: The Client decides which factory to use and creates it.
+    create participant JsonExporter
+    Client->>JsonExporter: <<create>>
+    Client->>JsonExporter: export(data, format)
+    JsonExporter->>+JsonExporter: get_serializer()
+
+    create participant JsonSerializer
+    JsonExporter->>JsonSerializer: <<create>>
+
+    JsonExporter-->>-JsonExporter: return Selializer
+    JsonExporter->>JsonSerializer: serialize(data, format)
+    JsonSerializer-->>JsonExporter: return serialized data
+    JsonExporter-->>Client: return serialized data
+    
+
+```
+</details>
+
+
+
+
