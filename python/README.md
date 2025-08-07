@@ -1085,3 +1085,149 @@ sequenceDiagram
 
 
 
+## Abstract Factory
+#### What
+The Client ask for a factory to create a product. The abstract factory create and use a factory to create a product.
+
+
+#### Useful For
+- When you need to create families of related objects without specifying their concrete classes.
+- When you want to ensure that the created objects are compatible with each other.
+
+#### Examples
+- `DataParser` : (Product) Interface that dictate the `parse` method
+- `DataRender` : (Product) Interface that dictate the `render` method
+- `DataProcessingFactory` : (Abstract Factory) Interface that dictate the `create_parser` and `create_renderer` method
+- `JSONDataParser`|`CSVDataParser` : (Concrete Product) Implement the `parse` method
+- `JSONDataRenderer`| `CSVDataRenderer` : (Concrete Product) Implement the `render` method
+- `JSONDataProcessingFactory`|`CSVDataProcessingFactory` : (Concrete Factory) Implement the `create_parser` and `create_renderer` method
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Client {
+        +process_and_export_data(factory, raw_data)
+    }
+
+    class DataProcessingFactory {
+        <<Interface>>
+        +create_parser()* DataParser
+        +create_renderer()* DataRenderer
+    }
+
+    class DataParser {
+        <<Interface>>
+        +parse(data)*
+    }
+
+    class DataRenderer {
+        <<Interface>>
+        +render(data)*
+    }
+
+    class JSONDataProcessingFactory {
+        +create_parser() JSONDataParser
+        +create_renderer() JSONDataRenderer
+    }
+
+    class CSVDataProcessingFactory {
+        +create_parser() CSVDataParser
+        +create_renderer() CSVDataRenderer
+    }
+
+    class JSONDataParser {
+        +parse(data)
+    }
+    class JSONDataRenderer {
+        +render(data)
+    }
+
+    class CSVDataParser {
+        +parse(data)
+    }
+    class CSVDataRenderer {
+        +render(data)
+    }
+
+    Client ..> DataProcessingFactory : uses
+    Client ..> DataParser : uses
+    Client ..> DataRenderer : uses
+
+    DataProcessingFactory <|.. JSONDataProcessingFactory : implements
+    DataProcessingFactory <|.. CSVDataProcessingFactory : implements
+
+    JSONDataProcessingFactory ..> JSONDataParser : creates
+    JSONDataProcessingFactory ..> JSONDataRenderer : creates
+
+    CSVDataProcessingFactory ..> CSVDataParser : creates
+    CSVDataProcessingFactory ..> CSVDataRenderer : creates
+
+    DataParser <|.. JSONDataParser : implements
+    DataParser <|.. CSVDataParser : implements
+
+    DataRenderer <|.. JSONDataRenderer : implements
+    DataRenderer <|.. CSVDataRenderer  : implements
+
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+
+```mermaid
+sequenceDiagram
+    participant Main as Main
+    participant Client as Client
+    
+
+    create participant JSONFactory as JSONDataProcessingFactory
+    Main->>JSONFactory: <<create>>
+    
+    Main->>Client: process_and_export_data(JSONFactory, json_data)
+    activate Client
+
+    Client->>JSONFactory: create_parser()
+    activate JSONFactory
+    
+    create participant JSONParser as JSONDataParser
+    JSONFactory->>JSONParser: <<create>>
+    
+    JSONFactory-->>Client: return JSONParser
+    deactivate JSONFactory
+
+    Client->>JSONFactory: create_renderer()
+    activate JSONFactory
+
+    create participant JSONRenderer as JSONDataRenderer
+    JSONFactory->>JSONRenderer: <<create>>
+
+    JSONFactory-->>Client: return JSONRenderer
+    deactivate JSONFactory
+
+    Client->>JSONParser: parse(json_data)
+    activate JSONParser
+    JSONParser-->>Client: parsed_data
+    deactivate JSONParser
+
+    Client->>JSONRenderer: render(parsed_data)
+    activate JSONRenderer
+    JSONRenderer-->>Client: rendered_json
+    deactivate JSONRenderer
+
+    deactivate Client
+
+```
+
+</details>
+
+
+
+
+
+
+
+
+
+
