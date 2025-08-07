@@ -1225,6 +1225,165 @@ sequenceDiagram
 
 
 
+## Builder
+#### What
+Build an object step by step. Instead of putting all options in the constructor, we can use methods to build it.
+
+
+#### Useful For
+- When you want to create complex objects step by step
+- When there are too many arguments in a constructor, and many are not often used
+
+#### Exemple
+- `LoggerConfigBuilder` : (Abstract Builder) Interface that dictate the functions to build a specific object (the product)
+- `LoggerConfig` : (Product) The object that will be built
+- `ConcreteLoggerConfigBuilder` : (Concrete Builder) The class that implements the abstract builder to build the `LoggerConfig`.
+- `LoggerDirector` : (Director) The class that uses the builder to build the object with predefined steps.
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Client {
+        +main()
+    }
+
+    class LoggerDirector {
+        -builder: LoggerConfigBuilder
+        +build_debug_config()
+        +build_production_config()
+    }
+
+    class LoggerConfigBuilder {
+        <<Interface>>
+        +set_log_level(level)
+        +enable_file_logging(path)
+        +set_message_format(format)
+        +get_config() LoggerConfig
+    }
+
+    class ConcreteLoggerConfigBuilder {
+        -config: LoggerConfig
+        +reset()
+        +set_log_level(level)
+        +enable_file_logging(path)
+        +set_message_format(format)
+        +get_config() LoggerConfig
+    }
+
+    class LoggerConfig {
+        <<Product>>
+        +log_level: str
+        +log_to_file: bool
+        +log_to_console: bool
+        +log_file_path: str
+        +message_format: str
+    }
+
+
+    Client ..> LoggerDirector : "uses"
+    Client ..> ConcreteLoggerConfigBuilder : "uses"
+
+    LoggerDirector o-- "1" LoggerConfigBuilder : "has-a"
+
+    LoggerConfigBuilder <|.. ConcreteLoggerConfigBuilder: implements
+
+    ConcreteLoggerConfigBuilder ..> LoggerConfig : "builds"
+    style Client stroke:#4D85E6,stroke-width:3px
+
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    alt Custom Build (Client uses Builder directly)
+    
+        create participant Builder as ConcreteLoggerConfigBuilder
+        Client->>Builder: <<create>>
+        create participant Product as LoggerConfig
+        Builder->>Product: <<create>>
+
+        Note over Client, Builder: Client builds a custom configuration step-by-step
+        
+        Client->>Builder: set_log_level("INFO")
+        activate Builder
+        Builder->>Product: .log_level = "INFO"
+        Builder-->>Client:
+        deactivate Builder
+
+        Client->>Builder: enable_file_logging("my_app.log")
+        activate Builder
+        Builder->>Product: .log_to_file = True
+        Builder->>Product: .log_file_path = "my_app.log"
+        Builder-->>Client:
+        deactivate Builder
+
+        Client->>Builder: set_message_format("{level} - {message}")
+        activate Builder
+        Builder->>Product: .message_format = "{level} - {message}"
+        Builder-->>Client:
+        deactivate Builder
+
+        Note right of Builder: All steps are complete. Now, get the final object.
+
+        Client->>Builder: get_config()
+        activate Builder
+        Builder-->>Client: return Product instance
+        Builder->>Builder: reset()
+        deactivate Builder
+
+    else Directed Build (Client uses Director)
+
+
+        create participant Director as LoggerDirector
+        Client->>Director: <<create>>
+        
+        create participant Builder2 as ConcreteLoggerConfigBuilder
+        Client->>Builder2: <<create>>
+        
+        create participant Product2 as LoggerConfig
+        Builder2->>Product2: <<create>>
+        
+        Client->>Director: <<create>>(Builder)
+        
+        Note over Client, Director: Client asks Director for a pre-defined configuration
+        
+        Client->>Director: build_debug_config()
+        activate Director
+        
+        Director->>Builder2: set_log_level("DEBUG")
+        activate Builder2
+        Builder2->>Product2: .log_level = "DEBUG"
+        Builder2-->>Director: return self
+        deactivate Builder2
+        
+        Director->>Builder2: enable_console_logging()
+        activate Builder2
+        Builder2->>Product2: .log_to_console = True
+        Builder2-->>Director: return self
+        deactivate Builder2
+        
+        deactivate Director
+
+        Note right of Builder2: Director has finished its job. Now, get the object.
+
+        Client->>Builder2: get_config()
+        activate Builder2
+        Builder2-->>Client: return Product instance
+        Builder2->>Builder2: reset()
+        deactivate Builder2
+
+    end
+```
+
+</details>
+
+
+
+
 
 
 
