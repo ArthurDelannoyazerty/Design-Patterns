@@ -1700,6 +1700,7 @@ classDiagram
     style Client stroke:#4D85E6,stroke-width:3px
 ```
 
+<details><summary><h5>Sequence Diagram</h5></summary>
 
 ```mermaid
 sequenceDiagram
@@ -1746,9 +1747,43 @@ sequenceDiagram
         EncryptionDecorator-->>-Client: return original_data
     end
 ```
+</details>
 
 
 
+## Facade
+#### What
+A way to simplify a complex system by providing a unified interface to the user. It hides the complexity of the system and provides a simple interface to interact with it.
 
+#### Useful for
+- Simplifying complex systems
+- Structure the system in layers
 
+#### Example
+- `InventorySystem`|`PaymentGateway`|`ShippingService`: Some object that are parts of a complex system.
+- `OrderFacade`: A facade that simplifies the interaction with the complex system. The `Client` only interfact with the facade. Contains the complex logic of the system.
+
+```mermaid
+classDiagram
+    direction LR
+
+    class OrderFacade {
+        +place_order(product_id, customer_id, amount, address)
+    }
+    class InventorySystem {
+        +check_stock(product_id)
+    }
+    class PaymentGateway {
+        +process_payment(customer_id, amount)
+    }
+    class ShippingService {
+        +schedule_shipping(order_id, address)
+    }
+    OrderFacade --> InventorySystem
+    OrderFacade --> PaymentGateway
+    OrderFacade --> ShippingService
+
+    Client --> OrderFacade
+    style Client stroke:#4D85E6,stroke-width:3px
+```
 
