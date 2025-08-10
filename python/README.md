@@ -1543,10 +1543,103 @@ sequenceDiagram
         PromotionalNotification->>EmailSender: send_message(subject, body)
         deactivate PromotionalNotification
     end
+```
+</details>
 
+
+
+## Composite
+#### What
+A way to interact with a tree-like structure of simple and complex objects with the same functions.
+
+#### Useful for
+- When you want the client code to treat both simple and complex elements uniformly.
+- When you have a tree structure of simple and complex objects.
+
+#### Example
+- `FileSystemComponent`: The abstract class that dictate the base functions for both the `File` class (leaf) and the `Directory` class (composite)
+- `File`: The leaf class that implements the base functions
+- `Directory`: The composite class that implements the base functions and also has a list of `FileSystemComponent` objects (other `Directory` or `File`)
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class FileSystemComponent {
+        <<abstract>>
+        -name str
+        +get_name() str
+        +get_size()* int
+    }
+
+    class File {
+        -size int
+        +get_size() int
+    }
+    class Directory {
+        -children list[FileSystemComponent]
+        +add(component: FileSystemComponent)
+        +remove(component: FileSystemComponent)
+        +get_size() int
+    }
+
+    FileSystemComponent <|.. File
+    FileSystemComponent <|.. Directory
+
+    Directory *-->  FileSystemComponent
+    Client --> FileSystemComponent
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    rect rgba(158, 158, 158, 0.17) 
+        create participant File1
+        Client->>File1: <<create>>
+        create participant File2
+        Client->>File2: <<create>>
+        create participant File3
+        Client->>File3: <<create>>
+    end
+
+    rect rgba(158, 158, 158, 0.17) 
+        create participant SubDirectory
+        Client->>SubDirectory: <<create>>
+        Client->>SubDirectory: add(File2)
+        
+        create participant RootDirectory
+        Client->>RootDirectory: <<create>>
+        Client->>RootDirectory: add(File1)
+        Client->>RootDirectory: add(File3)
+        Client->>RootDirectory: add(SubDirectory)
+    end
+
+    rect rgba(158, 158, 158, 0.17)
+        Client->>+RootDirectory: get_size()
+        RootDirectory->>+File1: get_size()
+        File1-->>-RootDirectory: return size
+        RootDirectory->>+File3: get_size()
+        File3-->>-RootDirectory: return size
+
+        RootDirectory->>+SubDirectory: get_size()
+        SubDirectory->>+File2: get_size()
+        File2-->>-SubDirectory: return size
+        SubDirectory-->>-RootDirectory: return size
+
+        RootDirectory-->>-Client: return size
+    end
 
 ```
 </details>
+
+
+
+
 
 
 
