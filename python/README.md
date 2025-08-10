@@ -1638,7 +1638,114 @@ sequenceDiagram
 </details>
 
 
+## Decorator
+#### What 
+(Not to be confused with the python @ decorator that wrap functions, here we wrap entire objects (= all of their methods))
 
+A way to add new behaviors to objects dynamically without altering their implementation.
+
+#### Useful For
+- Adding responsibilities to individual objects dynamically and transparently.
+- Extending functionality without modifying existing code.
+- Avoiding subclass explosion when adding multiple features.
+
+#### Example
+- `IDataManager`: Interface that dictate the behavior of the component and decorators with the functions `write_data` and `read_data`.
+- `SimpleFileManager`: Concrete component that implements the `IDataManager` interface. Is the base object that will be decorated.
+- `DataManagerDecorator`: Base decorator that implements the `IDataManager` interface and holds a reference to the component to be decorated (can be a concrete component or another decorator).
+- `CompressionDecorator`|`EncryptionDecorator`: Concrete decorators that add new behaviors to the component (with the same functions as the interface/base decorator/core component).
+
+(The decorators can be stacked to add multiple behaviors to the component, and their order matters)
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class IDataManager {
+        <<Interface>>
+        +write_data(filename, data)*
+        +read_data(filename)* bytes
+    }
+
+    class SimpleFileManager {
+        +write_data(filename, data)
+        +read_data(filename) bytes
+    }
+
+    class DataManagerDecorator {
+        -wrapped_component: IDataManager
+        +write_data(filename, data)
+        +read_data(filename) bytes
+    }
+
+    class CompressionDecorator {
+        +write_data(filename, data)
+        +read_data(filename) bytes
+    }
+
+    class EncryptionDecorator {
+        +write_data(filename, data)
+        +read_data(filename) bytes
+    }
+
+    IDataManager <|.. SimpleFileManager
+    IDataManager <|.. DataManagerDecorator
+
+    DataManagerDecorator <|-- CompressionDecorator
+    DataManagerDecorator <|-- EncryptionDecorator
+
+    DataManagerDecorator o-- IDataManager
+    Client --> IDataManager
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    create participant FileManager
+    Client->>FileManager: <<create>>
+
+    Note over Client: Client constructs the decorator stack
+    create participant CompressionDecorator
+    Client->>CompressionDecorator: <<create>>(FileManager)
+    create participant EncryptionDecorator
+    Client->>EncryptionDecorator: <<create>>(CompressionDecorator)
+
+    alt Write Operation
+        Client->>+EncryptionDecorator: write_data(filename, my_data)
+        
+        Note right of EncryptionDecorator: Encrypts data first
+        EncryptionDecorator->>+CompressionDecorator: write_data(filename, encrypted_data)
+        
+        Note right of CompressionDecorator: Compresses data second
+        CompressionDecorator->>+FileManager: write_data(filename, compressed_data)
+        
+        Note right of FileManager: Writes final data to disk
+        
+        deactivate FileManager
+        deactivate CompressionDecorator
+        deactivate EncryptionDecorator
+    end
+
+    alt Read Operation
+        Client->>+EncryptionDecorator: read_data(filename)
+        
+        EncryptionDecorator->>+CompressionDecorator: read_data(filename)
+        
+        CompressionDecorator->>+FileManager: read_data(filename)
+        
+        FileManager-->>-CompressionDecorator: return raw_bytes
+        
+        Note right of CompressionDecorator: Decompresses data
+        CompressionDecorator-->>-EncryptionDecorator: return decompressed_bytes
+        
+        Note right of EncryptionDecorator: Decrypts data
+        EncryptionDecorator-->>-Client: return original_data
+    end
+```
 
 
 
