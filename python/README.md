@@ -1430,8 +1430,29 @@ sequenceDiagram
 
 </details>
 
+## Singleton
+#### What
+A class that have only one instance.
+
+#### Useful For
+- When you want to have a global access to a single instance of a class.
+
+#### Example
 
 
+```mermaid
+classDiagram
+    direction LR
+
+    class Singleton {
+        -instance Singleton
+        +get_instance() Singleton
+    }
+
+    Singleton --> Singleton
+    Client --> Singleton 
+    style Client stroke:#4D85E6,stroke-width:3px
+```
 
 
 
