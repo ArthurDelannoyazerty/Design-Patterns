@@ -990,9 +990,6 @@ sequenceDiagram
 
 
 # Creational
-
-
-# Structural
 ## Factory
 #### What
 We instantiate a class with another subclass. 
@@ -1418,7 +1415,6 @@ classDiagram
 sequenceDiagram
     participant Client
 
-    
     create participant SomeObject
     Client->>SomeObject: <<create>>
     Client->>+SomeObject: copy.copy(SomeObject)
@@ -1453,6 +1449,106 @@ classDiagram
     Client --> Singleton 
     style Client stroke:#4D85E6,stroke-width:3px
 ```
+
+
+# Structural
+## Bridge
+#### What
+Decouple an abstraction from its implementation so that the two can vary independently.
+
+#### Useful for
+- When you want to divide/organize monolithic class in several variants
+- When you want to extend the a class in several indepentant dimensions
+- When you want to switch implementation at runtime
+
+
+#### Example
+- `MessageSender`: The implementation part of the bridge pattern. It dictate the `send` function that will be used by the `Notification` class. It will be used by the `Notification` abstract class.
+- `Notification`: The abstraction part of the bridge pattern. It does the actual work of sending the message. 
+- `EmailSender`|`SMSSender`: The concrete implementation of the `MessageSender` interface.
+- `UrgentNotification`|`PromotionalNotification`: The concrete implementation of the `Notification` abstract class.
+- `Client`: Instantiate the concrete implementation of the `Notification` abstract class and call the `send` function.
+
+
+```mermaid
+classDiagram
+    direction LR
+
+    class MessageSender {
+        <<interface>>
+        +send_message(subject: str, body: str)*
+    }
+
+    class Notification {
+        <<abstract>>
+        -sender MessageSender
+        -subject str
+        -body str
+        +send()*
+    }
+
+    class EmailSender {
+        +send_message(subject: str, body: str)
+    }
+    class SMSSender {
+        +send_message(subject: str, body: str)
+    }
+
+    class UrgentNotification {
+        +send()
+    }
+    class PromotionalNotification {
+        +send()
+    }
+
+
+    MessageSender <|.. EmailSender
+    MessageSender <|.. SMSSender
+    
+    Notification <|.. UrgentNotification
+    Notification <|.. PromotionalNotification
+
+    MessageSender <--* Notification
+    Client --> MessageSender
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    rect rgba(158, 158, 158, 0.17) 
+        create participant EmailSender
+        Client->>EmailSender: <<create>>
+        create participant SMSSender
+        Client->>SMSSender: <<create>>
+    end
+
+    rect rgba(158, 158, 158, 0.17) 
+        create participant UrgentNotification
+        Client->>UrgentNotification: <<create>>(SMSSender, subject, body)
+        Client->>UrgentNotification: send()
+        activate UrgentNotification
+        UrgentNotification->>SMSSender: send_message(subject, body)
+        deactivate UrgentNotification
+    end
+
+    rect rgba(158, 158, 158, 0.17) 
+        create participant PromotionalNotification
+        Client->>PromotionalNotification: <<create>>(EmailSender, subject, body)
+        Client->>PromotionalNotification: send()
+        activate PromotionalNotification
+        PromotionalNotification->>EmailSender: send_message(subject, body)
+        deactivate PromotionalNotification
+    end
+
+
+```
+</details>
+
+
 
 
 
