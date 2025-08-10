@@ -1787,3 +1787,133 @@ classDiagram
     style Client stroke:#4D85E6,stroke-width:3px
 ```
 
+## Flyweight
+#### What
+A way to reduce the memory usage by sharing common data between multiple objects. It is used to store the intrinsic state of the object and the extrinsic state is passed to the object when it is needed.
+
+#### Useful For
+- When you have a huge number of objects that have a lot of common data and would not fir in RAM.
+
+
+#### Exemple
+- `TreeType`: The Flyweight. Stores the intrinsic (shared) state.
+- `TreeFactory`: The Flyweight Factory. Creates and manages the flyweights.
+- `Tree`: The Context. Stores the extrinsic (unique) state and a reference to a TreeType (flyweight).
+- `Forest`: The Client. Uses the flyweights to render the forest.
+
+
+```mermaid
+classDiagram
+    direction LR
+        class Forest {
+        <<Client>>
+        -factory: TreeFactory
+        -trees: list~Tree~
+        +plant_tree(x, y, model, texture, color)
+        +render_forest()
+    }
+
+    class TreeFactory {
+        <<FlyweightFactory>>
+        -tree_types: dict
+        +get_tree_type(model, texture, color) TreeType
+    }
+
+    class TreeType {
+        <<Flyweight>>
+        +model: str
+        +texture: str
+        +color: str
+        +render(x, y)
+    }
+
+    class Tree {
+        <<Context>>
+        +x: int
+        +y: int
+        +render()
+    }
+
+
+    Forest --> TreeFactory
+    Forest o--> Tree
+    TreeFactory o--> TreeType
+    Tree --> TreeType
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+
+sequenceDiagram
+    participant Main as main
+
+    create participant TreeFactory as TreeFactory
+    Main->>TreeFactory: <<create>>
+
+    create participant Forest as Forest (Client)
+    Main->>Forest: <<create>>(TreeFactory)
+
+    loop For each tree to be planted
+
+        Main->>Forest: plant_tree(x, y, model, texture, color)
+        activate Forest
+
+        Forest->>TreeFactory: get_tree_type("Oak", "Oak Texture", "Green")
+        activate TreeFactory
+
+        alt First time requesting an "Oak" (Cache Miss)
+
+            note right of TreeFactory: Key not in cache.
+            create participant OakTreeType as Oak TreeType<br>(Flyweight)
+            TreeFactory->>OakTreeType: <<create>>("Oak", "Oak Texture", "Green")
+            TreeFactory-->>Forest: return OakTreeType instance
+
+        else Subsequent time requesting an "Oak" (Cache Hit)
+
+            note right of TreeFactory: Key found in cache.
+            TreeFactory-->>Forest: return existing OakTreeType instance
+
+        end
+        
+        deactivate TreeFactory
+
+        note left of Forest: Create context with unique state (x,y)<br>and shared flyweight.
+        create participant OakTree1 as Oak Tree 1<br>(Context)
+        Forest->>OakTree1: <<create>>(x, y, OakTreeType)
+        
+        deactivate Forest
+    end
+
+    create participant OakTree2 as Oak Tree 2<br>(Context)
+    TreeFactory ->> OakTree2: <<create>>(x, y, OakTreeType)
+    Note over Main, OakTree2: ... Time passes, more trees are planted ...
+
+    Main->>Forest: render_forest()
+    activate Forest
+
+    Note over Forest: Loop through all Tree objects
+    
+    Forest->>OakTree1: render()
+    activate OakTree1
+    
+    Note right of OakTree1: Delegate rendering to the flyweight,<br>passing extrinsic state (x, y).
+    OakTree1->>OakTreeType: render(x1, y1)
+    
+    deactivate OakTree1
+
+    Forest->>OakTree2: render()
+    activate OakTree2
+    OakTree2->>OakTreeType: render(x2, y2)
+    deactivate OakTree2
+
+    deactivate Forest
+```
+</details>
+
+
+
+
+
+
+
