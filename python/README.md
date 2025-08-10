@@ -1384,6 +1384,51 @@ sequenceDiagram
 
 
 
+## Prototype
+#### What
+A way to copy existing objects without making your code dependent on their classes by implementing a `clone()` function.
+
+#### Useful For
+- When you want to create a copy of an object without knowing its concrete class.
+
+#### Example
+Python have a `copy` standard library made for that. Check the example script.
+
+Normally that should look like :
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Prototype {
+        +clone()*
+    }
+
+    class SomeObject {
+        +clone()
+    }
+
+    Prototype <|.. SomeObject
+    SomeObject <-- Client
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    
+    create participant SomeObject
+    Client->>SomeObject: <<create>>
+    Client->>+SomeObject: copy.copy(SomeObject)
+
+    create participant SomeObject2 as SomeObject
+    SomeObject->>SomeObject2: <<create>>
+    SomeObject-->-Client: Return the new copied object
+```
+
+</details>
 
 
 
