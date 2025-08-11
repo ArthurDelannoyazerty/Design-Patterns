@@ -1,5 +1,35 @@
+*Inspired by [refactoring.guru](https://refactoring.guru/design-patterns)*
+
+# Menu
+- [Behavioral](#behavioral)
+    - [Chain of Responsibility](#chain-of-responsibility)
+    - [Command](#command)
+    - [Iterator](#iterator)
+    - [Mediator](#mediator)
+    - [Memento](#memento)
+    - [Observer](#observer)
+    - [State](#state)
+    - [Strategy](#strategy)
+    - [Template Method](#template-method)
+    - [Visitor](#visitor)
+- [Creational](#creational)
+    - [Factory](#factory)
+    - [Abstract Factory](#abstract-factory)
+    - [Builder](#builder)
+    - [Prototype](#prototype)
+    - [Singleton](#singleton)
+- [Structural](#structural)
+    - [Adapter](#adapter)
+    - [Bridge](#bridge)
+    - [Composite](#composite)
+    - [Decorator](#decorator)
+    - [Facade](#facade)
+    - [Flyweight](#flyweight)
+    - [Proxy](#proxy)
+
+
 # Behavioral
-## Chain of Responsibility
+## [Chain of Responsibility](python/patterns/behavioral/chain-of-responsibility.py)
 #### What
 Pass a request through a chain of handlers. Each handler decides whether to process the request or pass it to the next handler in the chain.
 
@@ -97,7 +127,7 @@ sequenceDiagram
 ```
 </details>
 
-## Command
+## [Command](python/patterns/behavioral/command.py)
 #### What
 Encapsulate all the information needed to perform an action. Each command can do an action or delegate it to a receiver. An invoker will execute these commands.
 
@@ -251,7 +281,7 @@ sequenceDiagram
 ```
 </details>
 
-## Iterator
+## [Iterator](python/patterns/behavioral/iterator.py)
 #### What
 We have a collection of items in a certain structure (item in list/graph, words in sentence ...). We want to traverse that collection. We split the storing and the traversal behaviour
 
@@ -345,13 +375,13 @@ sequenceDiagram
 </details>
 
 
-## Mediator
+## [Mediator](python/patterns/behavioral/mediator.py)
 
 Not really useful
 
 Just set a class that let you interface with a certain set of other object (exemple: A Dialog let us talk to its child (button, menus ...))
 
-## Memento
+## [Memento](python/patterns/behavioral/memento.py)
 #### What
 A class that store/remember an object state. 
 
@@ -467,7 +497,7 @@ sequenceDiagram
 
 
 
-## Observer
+## [Observer](python/patterns/behavioral/observer.py)
 #### What
 Observer pattern can subscribe to other objects and receive notification
 
@@ -567,7 +597,7 @@ sequenceDiagram
 </details>
 
 
-## State
+## [State](python/patterns/behavioral/state.py)
 #### What
 Extracting the state of an object into a separate set of class. Each class contains the logic and can change dynamically the state of the context object to another state if wanted.
 
@@ -673,7 +703,7 @@ sequenceDiagram
 </details>
 
 
-## Strategy
+## [Strategy](python/patterns/behavioral/strategy.py)
 #### What
 A way to externalize algorithm from an object.
 
@@ -782,7 +812,7 @@ sequenceDiagram
 </details>
 
 
-## Template Method
+## [Template Method](python/patterns/behavioral/template_method.py)
 #### What
 Use an abstract template class that implement some step for an algorithm common for different algorithms, and implement the steps that are different in the subclasses.
 
@@ -855,7 +885,7 @@ sequenceDiagram
 </details>
 
 
-## Visitor
+## [Visitor](python/patterns/behavioral/visitor.py)
 #### What
 A way to externalize the algorithm from classes. It allows to add new operations to existing classes without modifying them.
 
@@ -990,7 +1020,7 @@ sequenceDiagram
 
 
 # Creational
-## Factory
+## [Factory](python/patterns/creational/factory.py)
 #### What
 We instantiate a class with another subclass. 
 
@@ -1082,7 +1112,7 @@ sequenceDiagram
 
 
 
-## Abstract Factory
+## [Abstract Factory](python/patterns/creational/abstract_factory.py)
 #### What
 The Client ask for a factory to create a product. The abstract factory create and use a factory to create a product.
 
@@ -1222,7 +1252,7 @@ sequenceDiagram
 
 
 
-## Builder
+## [Builder](python/patterns/creational/builder.py)
 #### What
 Build an object step by step. Instead of putting all options in the constructor, we can use methods to build it.
 
@@ -1381,7 +1411,7 @@ sequenceDiagram
 
 
 
-## Prototype
+## [Prototype](python/patterns/creational/prototype.py)
 #### What
 A way to copy existing objects without making your code dependent on their classes by implementing a `clone()` function.
 
@@ -1426,7 +1456,7 @@ sequenceDiagram
 
 </details>
 
-## Singleton
+## [Singleton](python/patterns/creational/singleton.py)
 #### What
 A class that have only one instance.
 
@@ -1452,7 +1482,7 @@ classDiagram
 
 
 # Structural
-## Adapter
+## [Adapter](python/patterns/structural/adapter.py)
 #### What
 Convert the interface of a class into another interface clients expect. Adapter lets classes work together that couldn't otherwise because of incompatible interfaces.
 
@@ -1509,7 +1539,7 @@ sequenceDiagram
 ```
 </details>
 
-## Bridge
+## [Bridge](python/patterns/structural/bridge.py)
 #### What
 Decouple an abstraction from its implementation so that the two can vary independently.
 
@@ -1605,7 +1635,7 @@ sequenceDiagram
 
 
 
-## Composite
+## [Composite](python/patterns/structural/composite.py)
 #### What
 A way to interact with a tree-like structure of simple and complex objects with the same functions.
 
@@ -1695,7 +1725,7 @@ sequenceDiagram
 </details>
 
 
-## Decorator
+## [Decorator](python/patterns/structural/decorator.py)
 #### What 
 (Not to be confused with the python @ decorator that wrap functions, here we wrap entire objects (= all of their methods))
 
@@ -1808,7 +1838,7 @@ sequenceDiagram
 
 
 
-## Facade
+## [Facade](python/patterns/structural/facade.py)
 #### What
 A way to simplify a complex system by providing a unified interface to the user. It hides the complexity of the system and provides a simple interface to interact with it.
 
@@ -1844,7 +1874,7 @@ classDiagram
     style Client stroke:#4D85E6,stroke-width:3px
 ```
 
-## Flyweight
+## [Flyweight](python/patterns/structural/flyweight.py)
 #### What
 A way to reduce the memory usage by sharing common data between multiple objects. It is used to store the intrinsic state of the object and the extrinsic state is passed to the object when it is needed.
 
@@ -1971,7 +2001,7 @@ sequenceDiagram
 
 
 
-## Proxy
+## [Proxy](python/patterns/structural/proxy.py)
 #### What
 A way to control the access to an object. Can let you execute things before or after the request reaches the object.
 
