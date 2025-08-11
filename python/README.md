@@ -1914,6 +1914,99 @@ sequenceDiagram
 
 
 
+## Proxy
+#### What
+A way to control the access to an object. Can let you execute things before or after the request reaches the object.
+
+(Similar to `Facade`, but the proxy have the same interface as the real object)
+
+#### Useful For
+- Lazy initialization
+- Access control
+- Caching
+
+#### Example
+- `IReportGenerator`: (ServiceInterface) Dictate what the real object (and proxy) should do.
+- `RealReportGenerator`: (Service) The real object that does the work.
+- `SecureReportProxy`: (Proxy) Controls access to the real object. The `Client` only interact with the proxy, not the real service.
+- `User`: Helper class for the example, not part of the pattern.
+
+```mermaid
+classDiagram
+    direction LR
+
+    class IReportGenerator {
+        <<Interface>>
+        +generate_report()*
+    }
+
+    class RealReportGenerator {
+        +generate_report()
+    }
+
+    class SecureReportProxy {
+        -user: User
+        -real_generator: RealReportGenerator
+        +generate_report()
+        -check_access() bool
+    }
+     
+
+    IReportGenerator <|.. RealReportGenerator
+    IReportGenerator <|.. SecureReportProxy
+    
+    Client --> SecureReportProxy : (here) uses
+    Client --> IReportGenerator : can use
+    
+    SecureReportProxy *--> RealReportGenerator : delegates to
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    alt Access Granted (Admin User)
+
+        create participant Proxy as SecureReportProxy
+        Client->>Proxy: <<create>>(admin_user)
+        Client->>+Proxy: generate_report()
+        
+        Proxy->>Proxy: _check_access()
+        note right of Proxy: Access is granted.
+
+        alt Lazy Initialization (First valid call)
+            note right of Proxy: Real object is None, so create it.
+            create participant RealSubject as RealReportGenerator
+            Proxy->>RealSubject: <<create>>()
+            activate RealSubject
+            note left of RealSubject: Heavy initialization runs (2s sleep)
+            deactivate RealSubject
+        end
+
+        note right of Proxy: Delegate the call to the real object.
+        Proxy->>+RealSubject: generate_report()
+        RealSubject-->>-Proxy: return "--- Financial Report ---"
+        
+        Proxy-->>-Client: return "--- Financial Report ---"
+
+    else Access Denied (Viewer User)
+
+        Client->>Proxy: <<create>>(viewer_user)
+        Client->>+Proxy: generate_report()
+
+        Proxy->>Proxy: _check_access()
+        note right of Proxy: Access is denied.
+        
+        note over Proxy, RealSubject: If the access was granted, <br/>the real object would not have to be initialized again.
+        
+        Proxy-->>-Client: return "Error: You do not have permission..."
+
+    end
+```
+</details>
 
 
 
