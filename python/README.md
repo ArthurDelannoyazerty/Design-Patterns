@@ -1452,6 +1452,63 @@ classDiagram
 
 
 # Structural
+## Adapter
+#### What
+Convert the interface of a class into another interface clients expect. Adapter lets classes work together that couldn't otherwise because of incompatible interfaces.
+
+Similar to `Bridge` but `Bridge` is often designed up-front, while `Adapter` is used for existing apps.
+
+#### Useful for
+- When you want to use an existing class, and its interface does not match the rest of your code.
+- when you want to reuse several existing subclasses that lack some common functionality that can’t be added to the superclass
+
+#### Exemple
+- `LegacyAnalytics`: (The adaptee) Represent an existing code that can't be changed
+- `IAnalyticsService`: (The target) Represent the interface that the client expect
+- `AnalyticsAdapter`: (The adapter) Represent the adapter that will convert the interface of the adaptee to the interface of the target
+
+```mermaid
+classDiagram
+    direction LR
+
+    class LegacyAnalytics {
+        +send_analytic_log(log_type: str, log_data_json: str)
+    }
+    class IAnalyticsService {
+        <<interface>>
+        +track_event(event_name: str, user_id: int)
+    }
+    class AnalyticsAdapter {
+        -LegacyAnalytics _legacy_service
+        +track_event(event_name: str, user_id: int)
+    }
+    IAnalyticsService <|.. AnalyticsAdapter
+
+    AnalyticsAdapter --> LegacyAnalytics
+    Client --> IAnalyticsService
+    style Client stroke:#4D85E6,stroke-width:3px
+```
+
+<details><summary><h5>Sequence Diagram</h5></summary>
+
+```mermaid
+sequenceDiagram
+    participant Client
+
+    create participant LegacyAnalytics
+    Client->>LegacyAnalytics: <<create>>
+
+
+    create participant AnalyticsAdapter
+    Client->>AnalyticsAdapter: <<create>>(LegacyAnalytics)
+
+    Client->>+AnalyticsAdapter: track_event()
+    AnalyticsAdapter->>+LegacyAnalytics: send_analytic_log()
+    LegacyAnalytics-->>-AnalyticsAdapter: return
+    AnalyticsAdapter-->>-Client: return 
+```
+</details>
+
 ## Bridge
 #### What
 Decouple an abstraction from its implementation so that the two can vary independently.
